@@ -51,18 +51,22 @@ foreach ( range(1, intval($count / $batch_size) + 1, 1) as $i ) {
 		foreach ( $users as $user ) {
 			if ( !$user instanceof ElggUser ) {
 				$not_deleted += 1;
+                unset($user); // Free memory
 				continue;
 			}
 			
 			$is_validated = elgg_get_user_validation_status($user->getGUID());
 			if ($is_validated !== FALSE || !$user->delete()) {
 				$not_deleted += 1;
+                unset($user); // Free memory
 				continue;
 			}
 
 			$deleted += 1;
+            unset($user); // Free memory
 		}
 	}
+    unset($users); // Free memory
 }
 
 // Setting ignore_access and show_hidden_entities to default
