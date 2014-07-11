@@ -58,7 +58,9 @@ function __delete_users_batch() {
                 $undeleted_count++;
                 $undeleted_users[$user->username] = $user->name;
             }
+            unset($user); // Free memory
         }
+        unset($users); // Free memory
 
         if ($count > ($deleted_count + $undeleted_count)) {
             __delete_users_batch();
@@ -100,4 +102,3 @@ if ($undeleted_count > 0) {
     }
 }
 exit;
-
